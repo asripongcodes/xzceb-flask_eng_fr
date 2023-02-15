@@ -1,24 +1,20 @@
-from machinetranslation import translator
-from flask import Flask, render_template, request
-import json
+import unittest
+from translator import english_to_french, french_to_english
 
-app = Flask("Web Translator")
+class TestTranslateFunctions(unittest.TestCase):
+    def test_nul(self):
+        self.assertEqual(english_to_french(None), None)
+        self.assertEqual(french_to_english(None), None)
 
-@app.route("/englishToFrench")
-def englishToFrench():
-    textToTranslate = request.args.get('textToTranslate')
-    # Write your code here
-    return "Translated text to French"
+    def test_space(self):
+        self.assertEqual(english_to_french(' '), ' ')
+        self.assertEqual(french_to_english(' '), ' ')
 
-@app.route("/frenchToEnglish")
-def frenchToEnglish():
-    textToTranslate = request.args.get('textToTranslate')
-    # Write your code here
-    return "Translated text to English"
+    def test_hello(self):
+        self.assertEqual(english_to_french('Hello'), 'Bonjour')
+        self.assertEqual(french_to_english('Bonjour'),'Hello' )
+        self.assertNotEqual(french_to_english('Bonjour'),'Goodbye' )
+        self.assertNotEqual(french_to_english('Au Revoir'),'Hello' )
 
-@app.route("/")
-def renderIndexPage():
-    # Write the code to render template
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080)
+if __name__ == '__main__':
+    unittest.main()
